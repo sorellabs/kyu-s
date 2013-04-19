@@ -1,0 +1,59 @@
+// -- The compiler for KyuS --------------------------------------------
+ometa KyuSCompiler {
+  evMap = [#field eval:n eval:v] -> makeField(n, v),
+
+  eval = [#id :a]                                    -> sanitise(a)
+       | [#num :a]                                   -> a
+       | [#str :a]                                   -> makeString(a)
+       | [#vector [eval*:as]]                        -> makeVector(as)
+       | [#map [evMap*:as]]                          -> makeMap(as)
+       | [#lambda [[#args [eval*:as]] [eval*:body]]] -> makeLambda(as, body)
+       | [#return eval:v]                            -> makeReturn(v)
+       | [#call eval:hd [eval*:as]]                  -> makeCall(hd, as)
+       | [#let eval:n eval:v]                        -> makeLet(n, v),
+
+  cc = [eval*:as] -> as.join('; ')
+}
+
+module.exports = KyuSCompiler
+
+// :: String -> String
+function sanitise(a) { 
+  return a.replace(/(\W)/g, function(x) {
+    return '$' + x.charCodeAt(0) })}
+
+// :: String -> String
+function makeString(a) { 
+  return '"' 
+       + a.replace(/\n/g, '\\n')
+          .replace(/\r/g, '\\r')
+          .replace(/"/g, '\\"')
+       + '"' }
+
+// :: [String] -> String
+function makeVector(as) {
+  return '[' + as.join(', ') + ']' }
+
+// :: [String] -> String
+function makeMap(as) { 
+  return '{' + as.join(', ') + '}' }
+
+// :: String, String -> String
+function makeField(n, v) { 
+  return '"' + n + '": ' + v }
+
+// :: [String], [String] -> String
+function makeLambda(as, b) { 
+  return '(function(' + as.join(', ') + '){' + b.join(';\n') + '}' }
+
+// :: String -> String
+function makeReturn(v) {
+  return 'return ' + v }
+
+// :: String, [String] -> String
+function makeCall(n, as) {
+  return '(' + n + ')(' + as.join(', ') + ')' }
+
+// :: String, String -> String
+function makeLet(n, v) {
+  return 'var ' + n + ' = ' + v }

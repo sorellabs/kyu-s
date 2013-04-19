@@ -1,0 +1,41 @@
+// :: [String]
+var reservedSymbols = [ '<-', 'let', '.' ]
+
+// :: String -> Bool
+function reserved(a) {
+  return reservedSymbols.indexOf(a) != -1 }
+
+
+// -- The parser grammar for KyuS --------------------------------------
+ometa KyuS {
+  eol     = '\n' | '\r',
+  space   = eol | ' ' | '\t' | comment,
+  comment = ';' (~eol char)*:a eol -> a.join(''),
+
+  digits       = digit+:as -> parseInt(as.join(''), 10),
+  number       = space* digits:a (',' digits:b)? -> [#num, Number(a + '.' + (b||0))],
+  stringEscape = '\\' '"',
+  stringChar   = (stringEscape | (~seq('\"') char)):a -> a,
+  string       = space* '"' stringChar*:as '"' -> [#str, as.join('')],
+  symbol       = '{' | '}' | '(' | ')' | '[' | ']' | ':' | '|' | '"',
+  nameStart    = ~(symbol | digit | space) char,
+  nameRest     = ~(symbol | space) char,
+  name         = space* nameStart:a nameRest*:b ?(!reserved(a + b.join(''))) -> [#id, a + b.join('')],
+  vector       = space* "[" value*:as "]" -> [#vector, as],
+  map          = space* "[|" fieldDef*:as "|]" -> [#map, as],
+  fieldDef     = space* ':' name:a space+ value:b -> [#field, a, b],
+  lambda       = space* "{" argDef?:a fnBody*:b "}" -> [#lambda, a, b],
+  fnBody       = space* (expression | return):a -> a,
+  return       = space* "(" "<-" value:v ")" -> [#return, v],
+  argDef       = space* "|" space* argName*:as space* "|" -> [#args, as],
+  argName      = space* name:a -> a,
+  value        = space* (number | string | name | map | vector | lambda):a -> a,
+  
+  call       = "(" expression:hd expression*:args ")" -> [#call, hd, args],
+  let        = "(" "let" name:n value:v ")" -> [#let, n, v],
+  expression = space* (call | let | value):a -> a,
+  
+  program = expression*:xs -> xs  
+}
+
+module.exports = KyuS
