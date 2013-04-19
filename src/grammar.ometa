@@ -24,7 +24,7 @@ ometa KyuS {
   vector       = space* "[" value*:as "]" -> [#vector, as],
   map          = space* "[|" fieldDef*:as "|]" -> [#map, as],
   fieldDef     = space* ':' name:a space+ value:b -> [#field, a, b],
-  lambda       = space* "{" argDef?:a fnBody*:b "}" -> [#lambda, a, b],
+  lambda       = space* "{" argDef?:a fnBody*:b "}" -> [#lambda, a || [#args, []], b],
   fnBody       = space* (expression | return):a -> a,
   return       = space* "(" "<-" value:v ")" -> [#return, v],
   argDef       = space* "|" space* argName*:as space* "|" -> [#args, as],
