@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+var doc = "kyus - The stupidiest language. EVER!\n"
+        + "\n"
+        + "Usage:"
+        + "  kyus <file>"
+        + "  kyus -c <file>"
+        + "  kyus -h | --help"
+        + "  kyus -v | --version"
+        + ""
+        + "Options:"
+        + "  -c, --compile   Compiles the file rather than interpreting."
+        + "  -h, --help      Displays this screen and exits."
+        + "  -v, --version   Displays the version number and exits."
+
+var fs = require('fs')
+
+function read(filename) { return fs.readFileSync(filename, 'utf-8') }
+
+var docopt = require('docopt').docopt
+var pkg    = require('../package')
+var cc     = require('../').compile
+
+var args = docopt(doc, { version: pkg.version })
+
+if (args.compile)  console.log(cc(read(args.file)))
+else               new Function(cc(read(args.file)))()
