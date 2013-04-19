@@ -21,8 +21,8 @@ IT HAD TO BE DONE!!1
 
 ## Le Compiler
 
-    $ kyus foo.kyu  # executes foo
-    $ kyus -c foo.kyu > foo.js  # compiles foo
+    $ kyu-s foo.kyu  # executes foo
+    $ kyu-s -c foo.kyu > foo.js  # compiles foo
 
 
 ## Licence
