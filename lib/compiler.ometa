@@ -19,7 +19,7 @@ module.exports = KyuSCompiler
 
 // :: { String -> String }
 var SymbolTable = {
-, '=': 'EQUAL'
+  '=': 'EQUAL'
 , '-': 'MINUS'
 , '+': 'PLUS'
 , '/': 'SLASH'
