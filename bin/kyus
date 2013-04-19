@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 var doc = "kyus - The stupidiest language. EVER!\n"
         + "\n"
-        + "Usage:"
-        + "  kyus <file>"
-        + "  kyus -c <file>"
-        + "  kyus -h | --help"
-        + "  kyus -v | --version"
-        + ""
-        + "Options:"
-        + "  -c, --compile   Compiles the file rather than interpreting."
-        + "  -h, --help      Displays this screen and exits."
-        + "  -v, --version   Displays the version number and exits."
+        + "Usage:\n"
+        + "  kyus <file>\n"
+        + "  kyus -c <file>\n"
+        + "  kyus -h | --help\n"
+        + "  kyus -v | --version\n"
+        + "\n"
+        + "Options:\n"
+        + "  -c, --compile   Compiles the file rather than interpreting.\n"
+        + "  -h, --help      Displays this screen and exits.\n"
+        + "  -v, --version   Displays the version number and exits.\n"
 
 var fs = require('fs')
 

@@ -10,8 +10,7 @@
     "es5-shim": "~2.0.5",
     "browserify": "~2.4.3"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/killdream/kyu-s.git"
@@ -61,6 +60,7 @@
   },
   "dependencies": {
     "ometa-js": "~1.0.0",
-    "ffs": "~0.1.1"
+    "ffs": "~0.1.1",
+    "docopt": "~0.4.0"
   }
 }
