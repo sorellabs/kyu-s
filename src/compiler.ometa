@@ -12,7 +12,7 @@ ometa KyuSCompiler {
        | [#call eval:hd [eval*:as]]                  -> makeCall(hd, as)
        | [#let eval:n eval:v]                        -> makeLet(n, v),
 
-  cc = [eval*:as] -> as.join('; ')
+  cc = [eval*:as] -> as.join(';\n')
 }
 
 module.exports = KyuSCompiler
@@ -43,8 +43,12 @@ function makeField(n, v) {
   return '"' + n + '": ' + v }
 
 // :: [String], [String] -> String
-function makeLambda(as, b) { 
-  return '(function(' + as.join(', ') + '){' + b.join(';\n') + '}' }
+function makeLambda(as, b) {
+  var last = b.pop()
+  var init = b.join(';\n')
+  if (last) last = 'return ' + last
+  if (init) init += ';'
+  return '(function(' + as.join(', ') + '){\n' + init + last + '\n})' }
 
 // :: String -> String
 function makeReturn(v) {
