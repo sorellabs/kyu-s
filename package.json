@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "IT HAD TO BE DONE!!1",
   "main": "./lib/index.js",
+  "bin": "./bin/kyus",
   "devDependencies": {
     "LiveScript": "~1.1.1",
     "mocha": "~1.8.1",
