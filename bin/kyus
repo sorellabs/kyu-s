@@ -22,5 +22,5 @@ var cc     = require('../').compile
 
 var args = docopt(doc, { version: pkg.version })
 
-if (args.compile)  console.log(cc(read(args.file)))
-else               new Function(cc(read(args.file)))()
+if (args['--compile'])  console.log(cc(read(args['<file>'])))
+else                    new Function(cc(read(args['<file>'])))()
