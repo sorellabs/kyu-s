@@ -16,9 +16,13 @@ IT HAD TO BE DONE!!1
 
 ## Installing
 
-    $ git clone git://github.com/killdream/kyu-s.git
-    $ cd kyu-s
-    $ npm install
+    $ npm install -g kyu-s
+
+
+## Le Compiler
+
+    $ kyus foo.kyu  # executes foo
+    $ kyus -c foo.kyu > foo.js  # compiles foo
 
 
 ## Licence
