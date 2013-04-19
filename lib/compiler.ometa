@@ -7,7 +7,7 @@ ometa KyuSCompiler {
        | [#str :a]                                   -> makeString(a)
        | [#vector [eval*:as]]                        -> makeVector(as)
        | [#map [evMap*:as]]                          -> makeMap(as)
-       | [#lambda [#args [eval*:as]] [eval*:body]]  -> makeLambda(as, body)
+       | [#lambda [#args [eval*:as]] [eval*:body]]   -> makeLambda(as, body)
        | [#return eval:v]                            -> makeReturn(v)
        | [#call eval:hd [eval*:as]]                  -> makeCall(hd, as)
        | [#let eval:n eval:v]                        -> makeLet(n, v),
@@ -27,7 +27,7 @@ function makeString(a) {
   return '"' 
        + a.replace(/\n/g, '\\n')
           .replace(/\r/g, '\\r')
-          .replace(/"/g, '\\"')
+          .replace(/"/g, '\\"') 
        + '"' }
 
 // :: [String] -> String
@@ -46,8 +46,8 @@ function makeField(n, v) {
 function makeLambda(as, b) {
   var last = b.pop()
   var init = b.join(';\n')
-  if (last) last = 'return ' + last
-  if (init) init += ';'
+  last && (last = 'return ' + last)
+  init && (init += ';')
   return '(function(' + as.join(', ') + '){\n' + init + last + '\n})' }
 
 // :: String -> String
