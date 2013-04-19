@@ -32,7 +32,6 @@ function parse(s) {
   return parser.matchAll(s, 'program') }
 
 function compileAST(ast) {
-  console.log(ast)
   return compiler.match(ast, 'cc') }
 
 function compile(s) {
