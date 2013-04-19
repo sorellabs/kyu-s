@@ -17,10 +17,30 @@ ometa KyuSCompiler {
 
 module.exports = KyuSCompiler
 
+// :: { String -> String }
+var SymbolTable = {
+, '=': 'EQUAL'
+, '-': 'MINUS'
+, '+': 'PLUS'
+, '/': 'SLASH'
+, '!': 'BANG'
+, '?': 'QUESTION'
+, '~': 'TILDE'
+, '@': 'AT'
+, '^': 'CIRCUMFLEX'
+, '<': 'LT'
+, '>': 'GT'
+, '#': 'POUND'
+, '$': 'DOLLAR'
+, '%': 'PERCENT'
+, '&': 'AND'
+, '*': 'TIMES'
+}
+
 // :: String -> String
 function sanitise(a) { 
-  return a.replace(/(\W)/g, function(x) {
-    return '$' + x.charCodeAt(0) })}
+  return a.replace(/([^\w\._])/g, function(x) {
+    return '$' + (SymbolTable[x] || x.charCodeAt(0)) })}
 
 // :: String -> String
 function makeString(a) { 
